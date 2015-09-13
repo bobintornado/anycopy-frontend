@@ -56,38 +56,33 @@ export default class Root extends ParseComponent {
 	  }
 
 	render() {
-
 		if (this.data.user === undefined) {
 			return (
 				<div className="container">
-					<h1>Any Copy</h1>
-					<div className='loginForm' onKeyDown={this.keyDown}>
-						{
-						this.state.error ?
-						<div className='row centered errors'>{this.state.error}</div> :
-						null
-						}
-						<div className='row'>
-							<label htmlFor='username'>Username</label>
-							<input ref='username' id='username' type='text' />
-						</div>
-						<div className='row'>
-							<label htmlFor='password'>Password</label>
-							<input ref='password' id='password' type='password' />
-						</div>
-						<div className='row centered'>
-							<a className='button' onClick={this.submit.bind(this)}>
-								{this.state.signup ? 'Sign up' : 'Log in'}
-							</a>
-						</div>
-						<div className='row centered'>
-							or&nbsp;
-							<a onClick={this.toggleSignup}>
-								{this.state.signup ? 'log in' : 'sign up'}
-							</a>
-						</div>
-					</div>
+				      <form className="form-signin">
+				      	<h1>AnyCopy</h1>
+				      	<br/>
+				      	<div className='form-group'>
+				      		<label htmlFor='username' className="sr-only">Username</label>
+				      		<input ref='username' id='username' type='text' required autofocus className="form-control" placeholder="Username"/>
+				      	</div>
+				      	<div className='form-group'>
+		      				<label htmlFor='password' className="sr-only">Password</label>
+		      				<input ref='password' id='password' type='password' className="form-control" placeholder="Password" required/>
+		      			</div>
+				        {
+			        		this.state.error ?
+			        		<div className='form-group centered errors'>{this.state.error}</div> :
+			        		null
+				        }
+				        <div className='form-group'>
+				        	<a className="btn btn-lg btn-primary btn-block" onClick={this.submit.bind(this)}>
+				        		Sign In
+				        	</a>
+		        		</div>
+				      </form>
 				</div>
+				
 			);
 		} else {
 			return ( <App /> );

@@ -2,6 +2,7 @@ import React from 'react';
 import navTo from '../actions/nav' 
 import { connect } from 'react-redux'
 import store from '../store/configureStore'
+import NewCopyModal from './NewCopyModal'
 
 class LeftNavBar extends React.Component {
 	constructor(props) {
@@ -35,11 +36,15 @@ class LeftNavBar extends React.Component {
 				</div>
 				<div className="line"></div>
 				<div>
-					<button type="button" className="btn btn-primary btn-newCopy">New Copy</button>
+					<button type="button" className="btn btn-primary btn-newCopy" 
+					 	data-toggle="modal" data-target="#myModal">
+					 	New Copy
+					 </button>
 				</div>
 				<div className="section section-bottom">
 					<div>User</div>
 				</div>
+				<NewCopyModal />
 			</div>
         );
 	}
@@ -57,7 +62,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    selectTab: () => dispatch(navTo("bin"))
+    // selectTab: () => dispatch(navTo("bin"))
   };
 }
 
