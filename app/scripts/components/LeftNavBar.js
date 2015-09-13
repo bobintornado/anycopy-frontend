@@ -3,6 +3,7 @@ import navTo from '../actions/nav'
 import { connect } from 'react-redux'
 import store from '../store/configureStore'
 import NewCopyModal from './NewCopyModal'
+import Parse from 'parse';
 
 class LeftNavBar extends React.Component {
 	constructor(props) {
@@ -42,7 +43,7 @@ class LeftNavBar extends React.Component {
 					 </button>
 				</div>
 				<div className="section section-bottom">
-					<div>User</div>
+					<div> Logout </div>
 				</div>
 				<NewCopyModal />
 			</div>
