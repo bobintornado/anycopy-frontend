@@ -16,6 +16,11 @@ class LeftNavBar extends React.Component {
 	    store.dispatch(navTo(tab));
 	}
 
+	logout() {
+		Parse.User.logOut();
+		location.reload();
+	}
+
 	render() {
 		return (
 			<div className="col-xs-2 col-sm-2 col-md-2 col-lg-2 left-bar">
@@ -43,7 +48,10 @@ class LeftNavBar extends React.Component {
 					 </button>
 				</div>
 				<div className="section section-bottom">
-					<div> Logout </div>
+					<div>
+						<button type="button" className="btn btn-default"
+							onClick={this.logout}>Log Out</button>
+					</div>
 				</div>
 				<NewCopyModal />
 			</div>
