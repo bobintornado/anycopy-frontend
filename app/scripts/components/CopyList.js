@@ -21,7 +21,7 @@ class CopyList extends ParseComponent {
 		return (
 			<div>
 				{this.data.copys.map(function(c) {
-					if (c.title.indexOf(this.props.searchText) === -1 || c.content.indexOf(this.props.searchText) === -1) {
+					if (c.title.indexOf(this.props.searchText) === -1 && c.content.indexOf(this.props.searchText) === -1) {
 						return;
 					} else {
 						return (
