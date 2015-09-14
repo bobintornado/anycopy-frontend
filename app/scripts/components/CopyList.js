@@ -13,7 +13,7 @@ class CopyList extends ParseComponent {
 
 	observe(props, state) {
 		return {
-			copys: (new Parse.Query('ParseNote')).equalTo('status', 1).descending("updatedAt")
+			copys: (new Parse.Query('ParseNote')).equalTo('status', 1).limit(1000).descending("updatedAt")
 		};
 	}
 

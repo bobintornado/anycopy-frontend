@@ -12,7 +12,7 @@ export default class Bin extends ParseComponent {
 
 	observe(props, state) {
 		return {
-			copys: (new Parse.Query('ParseNote')).equalTo('status', 7)
+			copys: (new Parse.Query('ParseNote')).equalTo('status', 7).limit(1000).descending("updatedAt")
 		};
 	}
 
