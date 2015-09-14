@@ -13,14 +13,22 @@ class CopyList extends ParseComponent {
 
 	observe(props, state) {
 		return {
-			copys: (new Parse.Query('ParseNote')).equalTo('level', 1).descending("updatedAt")
+			copys: (new Parse.Query('ParseNote')).equalTo('status', 1).descending("updatedAt")
 		};
+	}
+
+	componentDidUpdate() {
+		var grid = document.querySelector('.grid');
+		console.log(grid);
+		var msnry = new Masonry( grid, {
+		  itemSelector: '.grid-item',
+		  gutter: 4
+		});
 	}
 
 	render() {
 		return (
-			<div>
-				<div>{this.props.filterText}</div>
+			<div className="grid">
 				{this.data.copys.map(function(c) {
 					if (c.title.indexOf(this.props.searchText) === -1 || c.content.indexOf(this.props.searchText) === -1) {
 						return;

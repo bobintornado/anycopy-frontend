@@ -9,7 +9,7 @@ export default class NewCopyModal extends React.Component {
 		ParseReact.Mutation.Create("ParseNote", {
 			title: title,
 			content: content,
-			level: 1,
+			status: 1,
 			ACL: new Parse.ACL(Parse.User.current())
 		}).dispatch()
 		$('#myModal').modal('toggle')

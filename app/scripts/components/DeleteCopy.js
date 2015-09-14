@@ -4,16 +4,18 @@ import ParseReact from 'parse-react';
 export default class DeleteCopy extends React.Component {
 	restoreCopy() {
 		ParseReact.Mutation.Set(this, {
-			"level": 1
+			"status": 1
 		}).dispatch()
 	}
 
 	render() {
+		// subContent by first 100
+		var subContent = this.props.content.length > 100 ? this.props.content.substring(0,100) + "...." : this.props.content
 		return (
-			<div className="card col-xs-12 col-sm-6 col-md-4 col-lg-3">
+			<div className="grid-item col-xs-12 col-sm-6 col-md-4 col-lg-3">
 			    <div className="panel panel-default">
 		        	<div className="panel-body">
-		        	    {this.props.content}
+		        	    {subContent}
 		        	</div>
 		        	<div className="panel-footer">
 		        		<button type="button" className="btn btn-default btn-xs"

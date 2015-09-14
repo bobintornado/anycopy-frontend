@@ -62,14 +62,12 @@ li.active > a {
     text-align: left;
 }
 
-.card {
-    // a quick/short hack
-    // could be much more refined
+textarea {
     min-height: 100px;
 }
 
-textarea {
-    min-height: 100px;
+.grid-item {
+    width: 300px;
 }
 
 // speed copy

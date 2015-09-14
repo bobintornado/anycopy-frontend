@@ -12,13 +12,22 @@ export default class Bin extends ParseComponent {
 
 	observe(props, state) {
 		return {
-			copys: (new Parse.Query('ParseNote')).equalTo('level', 7)
+			copys: (new Parse.Query('ParseNote')).equalTo('status', 7)
 		};
+	}
+
+	componentDidUpdate() {
+		var grid = document.querySelector('.grid');
+		console.log(grid);
+		var msnry = new Masonry( grid, {
+		  itemSelector: '.grid-item',
+		  gutter: 4
+		});
 	}
 
 	render() {
 		return (
-			<div>
+			<div className="grid">
 				{this.data.copys.map(function(c) {
 		          return (
 		          	<DeleteCopy key={c.id} content = {c.content} obj={c} />

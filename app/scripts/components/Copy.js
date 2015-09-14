@@ -10,7 +10,7 @@ export default class Copy extends React.Component {
 
 	deleteCopy() {
 		ParseReact.Mutation.Set(this, {
-			"level": 7
+			"status": 7
 		}).dispatch()
 	}
 
@@ -24,8 +24,10 @@ export default class Copy extends React.Component {
 
 	// with inline if for copy title
 	render() {
+		// subContent by first 100
+		var subContent = this.props.content.length > 100 ? this.props.content.substring(0,100) + "...." : this.props.content
 		return (
-			<div className="card col-xs-12 col-sm-6 col-md-4 col-lg-3">
+			<div className="grid-item">
 			    <div className="panel panel-default">
 			    	{(() => {
 			            if (this.props.obj.title) {
@@ -36,7 +38,7 @@ export default class Copy extends React.Component {
 			            }
 			        })()}
 		        	<div className="panel-body" onClick={this.edit.bind(this.props.obj)}>
-		        	    {this.props.content}
+		        	    {subContent}
 		        	</div>
 		        	<div className="panel-footer">
 		        		<button type="button" className="btn btn-danger btn-xs" 

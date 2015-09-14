@@ -3,6 +3,7 @@
   "private": true,
   "dependencies": {
     "bootstrap-sass": "~3.3.5",
+    "masonry": "~3.3.2",
     "modernizr": "~2.8.1"
   },
   "overrides": {
