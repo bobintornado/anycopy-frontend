@@ -1,6 +1,7 @@
 import React from 'react';
 import CopyList from './CopyList';
 import Bin from './Bin'
+import CopyDetail from './CopyDetail.js'
 import { connect } from 'react-redux';
 import searchAction from '../actions/search'
 import store from '../store/configureStore'
@@ -10,7 +11,9 @@ const contents = {
 	"copys" : <Provider store={store}>
 			    {() => <CopyList />}
 			  </Provider>, 
-	"bin": <Bin />
+	"bin": <Provider store={store}>
+			    {() => <Bin />}
+			</Provider>
 }
 
 class MainContent extends React.Component {
@@ -25,11 +28,16 @@ class MainContent extends React.Component {
 	render() {
 		return ( 
             <div className="col-xs-10 col-sm-10 col-md-10 col-lg-10 main">
-	            <div className="search">
-	                <input type="text" className="form-control" placeholder="Search" onChange={this.search.bind(this)}
-	                	ref="search"/>
+	            <div className="col-xs-3 col-sm-3 col-md-3 col-lg-3 CopyList">
+	            	<div className="search">
+		                <input type="text" className="form-control" placeholder="Search" onChange={this.search.bind(this)}
+		                	ref="search"/>
+		            </div>
+	            	{contents[this.props.navState]}	
 	            </div>
-	            {contents[this.props.navState]}
+	            <div className="col-xs-9 col-sm-9 col-md-9 col-lg-9 rightCopyDetail">
+	            	<CopyDetail />
+	            </div>
 	        </div>
         );
 	}
