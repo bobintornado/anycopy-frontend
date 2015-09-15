@@ -13,7 +13,6 @@ export default class NewCopyModal extends React.Component {
 			status: 1,
 			ACL: new Parse.ACL(Parse.User.current())
 		}).dispatch()
-		$('#myModal').modal('toggle')
 	}
 
 	render() {

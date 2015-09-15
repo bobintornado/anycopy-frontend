@@ -1,6 +1,12 @@
-import { createStore } from 'redux';
-import navState from '../reducers/reducer';
+import { createStore, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk'
+import App from '../reducers/reducer';
 
-var store = createStore(navState);
+
+const createStoreWithMiddleware = applyMiddleware(
+	thunk
+)(createStore)
+
+const store = createStoreWithMiddleware(App);
 
 export default store

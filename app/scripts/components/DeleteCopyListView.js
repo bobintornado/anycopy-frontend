@@ -1,6 +1,6 @@
 import React from 'react';
 import store from '../store/configureStore'
-import editCopy from '../actions/copy'
+import { editCopy } from '../actions/copy'
 
 export default class DeleteCopyListView extends React.Component {
 	select() {

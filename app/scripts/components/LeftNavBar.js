@@ -2,8 +2,8 @@ import React from 'react';
 import navTo from '../actions/nav' 
 import { connect } from 'react-redux'
 import store from '../store/configureStore'
-import NewCopyModal from './NewCopyModal'
 import Parse from 'parse';
+import { enterAddCopyMode } from '../actions/copy'
 
 class LeftNavBar extends React.Component {
 	constructor(props) {
@@ -19,6 +19,10 @@ class LeftNavBar extends React.Component {
 	logout() {
 		Parse.User.logOut();
 		location.reload();
+	}
+
+	createNewCopy() {
+		store.dispatch(enterAddCopyMode())
 	}
 
 	render() {
@@ -43,8 +47,8 @@ class LeftNavBar extends React.Component {
 				</div>
 				<div className="line"></div>
 				<div>
-					<button type="button" className="btn btn-primary btn-newCopy" 
-					 	data-toggle="modal" data-target="#myModal">
+					<button type="button" className="btn btn-primary btn-newCopy"
+						onClick={this.createNewCopy.bind(this)}>
 					 	New Copy
 					 </button>
 				</div>
@@ -55,7 +59,6 @@ class LeftNavBar extends React.Component {
 						<span> &nbsp; {username}</span>
 					</div>
 				</div>
-				<NewCopyModal />
 			</div>
         );
 	}

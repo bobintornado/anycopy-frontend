@@ -2,6 +2,9 @@ import React from 'react';
 import ParseReact from 'parse-react';
 import Parse from 'parse';
 import { connect } from 'react-redux';
+import store from '../store/configureStore'
+import { addNewCopy, updateCopy, deleteParseCopy } from '../actions/copy'
+import flatten from '../helpers/flatten'
 
 class CopyDetail extends React.Component {
 	constructor() {
@@ -12,19 +15,33 @@ class CopyDetail extends React.Component {
         }
 	}
 
+	create() {
+		var title = React.findDOMNode(this.refs.title).value;
+	    var content = React.findDOMNode(this.refs.content).value;
+	    title = title == "" ? content.substring(0,20) : title
+		var p = ParseReact.Mutation.Create("ParseNote", {
+			title: title,
+			content: content,
+			status: 1,
+			ACL: new Parse.ACL(Parse.User.current())
+		}).dispatch();
+		// don't do optimistic updated yet
+		p.then(function(newCopy) {
+			store.dispatch(addNewCopy(flatten(newCopy)))
+		});
+		this.setState({
+			object: false
+		}); 
+	}
+
 	save() {
 		var title = React.findDOMNode(this.refs.title).value;
 	    var content = React.findDOMNode(this.refs.content).value;
-		ParseReact.Mutation.Set(this.props.object, {
-			title: this.state.title,
-			content: this.state.content
-		}).dispatch()
+		store.dispatch(updateCopy(title, content, this.props.index, this.props.object))
 	}
 
 	deleteCopy() {
-		ParseReact.Mutation.Set(this.props.object, {
-			status: -7
-		}).dispatch()
+		store.dispatch(deleteParseCopy(this.props.object, this.props.index));
 		this.setState({object: undefined});	
 	}
 
@@ -36,7 +53,11 @@ class CopyDetail extends React.Component {
 	}
 
 	componentWillReceiveProps(nextProps) {
-		this.setState({title: nextProps.object.title, content: nextProps.object.content, object:nextProps.object});	
+		if (nextProps.enterAddCopyMode) {
+			this.setState({title: "", content: "", object:true });	
+		} else {
+			this.setState({title: nextProps.object.title, content: nextProps.object.content, object:nextProps.object });	
+		}
 	}
 
 	handleChange(event) {
@@ -56,7 +77,13 @@ class CopyDetail extends React.Component {
 				          return (
 				          	<div>
 				          		{(() => {
-			          		        if (this.state.object.status == -7) {
+				          			if (this.props.enterAddCopyMode) {
+				          				return (
+							          		<div className="form-group action">
+			          							<button type="button" className="btn btn-primary btn-sm btn-action"
+			          								onClick={this.create.bind(this)}>Create</button>
+			          						</div>);
+				          			} else if (this.state.object.status == -7) {
 			          		          	return (
 							          		<div className="form-group action">
 			          							<button type="button" className="btn btn-info btn-sm btn-action"
@@ -75,7 +102,7 @@ class CopyDetail extends React.Component {
 				          		 })()}
           		          		<div className="form-group">
           							<label htmlFor="title" className="control-label"><h3>Title</h3></label>
-          							<input type="text" className="form-control" id="title" ref="title" value={title} onChange={this.handleChange.bind(this)}/>
+          							<input type="text" className="form-control" id="title" ref="title" value={this.state.title} onChange={this.handleChange.bind(this)}/>
           						</div>
           						<div className="form-group">
           							<label htmlFor="Content" className="control-label"><h3>Content</h3></label>
@@ -100,7 +127,9 @@ class CopyDetail extends React.Component {
 // Which part of the Redux global state does our component want to receive as props?
 function mapStateToProps(state) {
   return {
-    object: state.object
+    object: state.object,
+    index: state.index,
+    enterAddCopyMode: state.enterAddCopyMode
   };
 }
 

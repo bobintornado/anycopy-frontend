@@ -17,7 +17,6 @@ export default class Bin extends ParseComponent {
 	}
 
 	render() {
-		console.log('render bin');
 		return (
 			<div>
 				{this.data.copys.map(function(c) {

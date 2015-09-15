@@ -1,34 +1,19 @@
 import React from 'react';
-import Parse from 'parse';
-import ParseReact from 'parse-react';
 import CopyListView from './CopyListView';
 import { connect } from 'react-redux';
 
-const ParseComponent = ParseReact.Component(React);
-
-class CopyList extends ParseComponent {
-	constructor() {
-		super();
-	}
-
-	observe(props, state) {
-		return {
-			copys: (new Parse.Query('ParseNote')).equalTo('status', 1).limit(1000).descending("updatedAt")
-		};
-	}
-
+class CopyList extends React.Component {
 	render() {
 		return (
 			<div>
-				{this.data.copys.map(function(c) {
+				{this.props.copys.map(function(c,index) {
 					if (c.title.indexOf(this.props.searchText) === -1 && c.content.indexOf(this.props.searchText) === -1) {
 						return;
 					} else {
 						return (
-							<CopyListView key={c.id} content = {c.content} obj={c}/>
+							<CopyListView key={c.id} content = {c.content} obj={c} objIndex={index}/>
 						);		
-					}
-		          
+					} 
 		        }, this)}
 			</div>
 		);
@@ -38,7 +23,8 @@ class CopyList extends ParseComponent {
 // Which part of the Redux global state does our component want to receive as props?
 function mapStateToProps(state) {
   return {
-    searchText: state.searchText
+    searchText: state.searchText,
+    copys: state.copys
   };
 }
 
