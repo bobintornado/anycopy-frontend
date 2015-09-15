@@ -10,4 +10,4 @@ gulp
 
 # Basic Info
 
-A Redux + React front-end app. Utilized ParseReact for data interactions.
+A Redux + React front-end app. Back-end on Parse.
