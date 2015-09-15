@@ -6,7 +6,7 @@ export default class NewCopyModal extends React.Component {
 	create() {
 		var title = React.findDOMNode(this.refs.title).value;
 	    var content = React.findDOMNode(this.refs.content).value;
-	    title = title == "" ? content.substring(0,10) : title
+	    title = title == "" ? content.substring(0,20) : title
 		ParseReact.Mutation.Create("ParseNote", {
 			title: title,
 			content: content,

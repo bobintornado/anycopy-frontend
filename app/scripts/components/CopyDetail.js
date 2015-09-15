@@ -68,6 +68,7 @@ class CopyDetail extends React.Component {
 								          		<button type="button" className="btn btn-info btn-sm btn-action"
 								          			onClick={this.save.bind(this)}>Save</button>
 								          		<button type="button" className="btn btn-danger btn-sm btn-action"
+								          			style= {{float:"right"}}
 			          								onClick={this.deleteCopy.bind(this)}>Delete</button>
 			          						</div>);
 			          		        }
