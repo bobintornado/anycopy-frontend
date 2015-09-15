@@ -22,6 +22,7 @@ class LeftNavBar extends React.Component {
 	}
 
 	render() {
+		const username = Parse.User.current().getUsername();
 		return (
 			<div className="col-xs-2 col-sm-2 col-md-2 col-lg-2 left-bar">
 				<div className="logo">
@@ -51,6 +52,7 @@ class LeftNavBar extends React.Component {
 					<div>
 						<button type="button" className="btn btn-default"
 							onClick={this.logout}>Log Out</button>
+						<span> &nbsp; {username}</span>
 					</div>
 				</div>
 				<NewCopyModal />

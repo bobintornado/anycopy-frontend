@@ -65,10 +65,10 @@ class CopyDetail extends React.Component {
 			          		        } else {
 			          		        	return (
 							          		<div className="form-group action">
-			          							<button type="button" className="btn btn-danger btn-sm btn-action"
-			          								onClick={this.deleteCopy.bind(this)}>Delete</button>
 								          		<button type="button" className="btn btn-info btn-sm btn-action"
 								          			onClick={this.save.bind(this)}>Save</button>
+								          		<button type="button" className="btn btn-danger btn-sm btn-action"
+			          								onClick={this.deleteCopy.bind(this)}>Delete</button>
 			          						</div>);
 			          		        }
 				          		 })()}
