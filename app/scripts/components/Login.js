@@ -3,46 +3,66 @@ import Parse from 'parse'
 
 export default class Login extends React.Component {
 	constructor(props) {
-	    super(props);
-	    this.state = { signup: false, forgetPassword: false };
+		super(props);
+		this.state = {
+			signup: false,
+			forgetPassword: false
+		};
 	}
 
 	submit() {
-	    var self = this;
-	    var username = React.findDOMNode(this.refs.username).value;
-	    var password = React.findDOMNode(this.refs.password).value;
-	    if (username.length && password.length) {
-	      if (this.state.signup) {
-	        console.log('signup');
-	        var u = new Parse.User({
-	          username: username,
-	          password: password
-	        });
-	        u.signUp().then(function() {
-	          // self.setState({
-	          //   error: null
-	          // });
-	        }, function() {
-	          self.setState({
-	            error: 'Invalid account information'
-	          });
-	        });
-	      } else {
-	        Parse.User.logIn(username, password).then(function() {
-	          // self.setState({
-	          //   error: null
-	          // });
-	        }, function() {
-	          self.setState({
-	            error: 'Incorrect username or password'
-	          });
-	        });
-	      }
-	    } else {
-	      this.setState({
-	        error: 'Please enter all fields'
-	      });
-	    }
+		var self = this;
+		var username = React.findDOMNode(this.refs.username).value;
+		if (this.state.forgetPassword) {
+			Parse.User.requestPasswordReset(username, {
+				success: function() {
+					self.setState({
+						error: "Successfully sent to your email. :) "
+					})
+				},
+				error: function(error) {
+					// Show the error message somewhere
+					self.setState({
+						error: error.message
+					});
+				}
+			});
+		} else {
+			var password = React.findDOMNode(this.refs.password).value;
+
+			if (username.length && password.length) {
+				if (this.state.signup) {
+					console.log('signup');
+					var u = new Parse.User({
+						username: username,
+						password: password
+					});
+					u.signUp().then(function() {
+						// self.setState({
+						//   error: null
+						// });
+					}, function() {
+						self.setState({
+							error: 'Invalid account information'
+						});
+					});
+				} else {
+					Parse.User.logIn(username, password).then(function() {
+						// self.setState({
+						//   error: null
+						// });
+					}, function() {
+						self.setState({
+							error: 'Incorrect username or password'
+						});
+					});
+				}
+			} else {
+				this.setState({
+					error: 'Please enter all fields'
+				});
+			}
+		}
 	}
 
 	toggleSignup() {
@@ -58,7 +78,7 @@ export default class Login extends React.Component {
 	}
 
 	render() {
-		return (
+		return ( 
 			<div className="container">
 				<form className="form-signin">
 					<h1>AnyCopy</h1>
