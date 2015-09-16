@@ -95,14 +95,10 @@ export function loadMoreCopysFromParse() {
 		// fetch more copys based on the updated time of last local copy
 		var currentLocalCopys = store.getState().copys
 		var lastLocalCopy = currentLocalCopys[currentLocalCopys.length - 1]
-		console.log(lastLocalCopy.updatedAt);
 		var query = (new Parse.Query('ParseNote')).equalTo('status', 1).descending("updatedAt").lessThan("updatedAt", lastLocalCopy.updatedAt).limit(25);
 		return query.find(function(results) {
 			if (results.length > 0) {
-				console.log('load more copys from parse results');
-				console.log(results);
 				dispatch(addCopys(results.map(flatten)));
-				console.log('end fetching more');
 				dispatch(endFetchingCopysFromParse());
 			} else {
 				dispatch(noMoreCopysFromParse())

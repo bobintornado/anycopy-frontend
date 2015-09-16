@@ -5,6 +5,7 @@ var defaultS = {
 	navState: navTypes.COPYS,
 	searchText: "",
 	copys: [],
+	deletedCopys: [],
 	enterAddCopyMode: false,
 	isFetchingMoreCopysFromParse: false,
 	noMoreCopysFromParse: false
@@ -34,6 +35,10 @@ export default function App(state = {}, action) {
 			return Object.assign({}, state, {
 				copys: [...state.copys, ...action.copys]
 			});
+		case "addDeletedCopys":
+			return Object.assign({}, state, {
+				deletedCopys: [...state.deletedCopys, ...action.deletedCopys]
+			});
 		case "addNewCopy":
 			return Object.assign({}, state, {
 				copys: [ action.copy, ...state.copys]
@@ -50,11 +55,16 @@ export default function App(state = {}, action) {
 				]
 			});
 		case "deleteLocalCopy": 
+			var newObj = Object.assign({}, state.copys[action.index], {
+				status: -7,
+				updatedAt: new Date()
+			})
 			return Object.assign({}, state, {
 				copys: [
 					...state.copys.slice(0, action.index),
 				    ...state.copys.slice(action.index + 1)
-				]
+				],
+				deletedCopys: [newObj, ...state.deletedCopys]
 			});
 		case "startFetchingCopys": 
 			return Object.assign({}, state, {
@@ -69,6 +79,19 @@ export default function App(state = {}, action) {
 					isFetchingMoreCopysFromParse: false,
 			    	noMoreCopysFromParse: true
 			    });
+		case "restore": 
+			var newObj = Object.assign({}, state.deletedCopys[action.index], {
+				status: 1,
+				updatedAt: new Date()
+			})
+			console.log(newObj);
+			return Object.assign({}, state, {
+				deletedCopys: [
+					...state.deletedCopys.slice(0, action.index),
+				    ...state.deletedCopys.slice(action.index + 1)
+				],
+				copys: [newObj, ...state.copys]
+			});
 		default:
 			return defaultS;
 	}

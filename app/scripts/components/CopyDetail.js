@@ -4,7 +4,9 @@ import Parse from 'parse';
 import { connect } from 'react-redux';
 import store from '../store/configureStore'
 import { addNewCopy, updateCopy, deleteParseCopy } from '../actions/copy'
+import { restoreOnParse } from '../actions/delete'
 import flatten from '../helpers/flatten'
+import FAQModal from '../components/FAQModal.js'
 
 class CopyDetail extends React.Component {
 	constructor() {
@@ -46,10 +48,8 @@ class CopyDetail extends React.Component {
 	}
 
 	restore() {
-		ParseReact.Mutation.Set(this.props.object, {
-			status: 1
-		}).dispatch()
-		this.setState({object: undefined});		
+		store.dispatch(restoreOnParse(this.props.object, this.props.index));
+		this.setState({object: undefined});
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -95,7 +95,7 @@ class CopyDetail extends React.Component {
 								          		<button type="button" className="btn btn-info btn-sm btn-action"
 								          			onClick={this.save.bind(this)}>Save</button>
 								          		<button type="button" className="btn btn-danger btn-sm btn-action"
-								          			style= {{float:"right"}}
+								          			style= {{float:"right"}} id="deleteButton"
 			          								onClick={this.deleteCopy.bind(this)}>Delete</button>
 			          						</div>);
 			          		        }
@@ -112,9 +112,18 @@ class CopyDetail extends React.Component {
 				        } else {
 				        	return (
 				        		<div>
-				        			<h1>
-				        				 Please select a copy
-				        			</h1>
+				        			<div className="col-xs-11 col-sm-11 col-md-11 col-lg-11">
+					        			<h1>
+					        				 Please select a copy
+					        			</h1>	
+				        			</div>
+				        			<div className="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+				        				<h1>
+				        					<button type="button" className="btn btn-info"
+				        						data-toggle="modal" data-target="#FAQModal" >FAQ</button>	
+				        				</h1>
+				        			</div>
+				        			<FAQModal />
 				        		</div>
 				        		);
 				        }
