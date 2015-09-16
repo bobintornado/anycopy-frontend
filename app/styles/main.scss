@@ -54,7 +54,19 @@ li.active > a {
 }
 
 .search {
-    margin: 12px;
+    position: fixed;
+    background-color: white;
+    height: 47px;
+    padding: 12px 0 0 8px;
+    margin: 0px;
+}
+
+#searchBar {
+    width: calc(100% - 64px);
+}
+
+#searchButton {
+    margin-left: 4px;
 }
 
 .btn-newCopy {
@@ -115,11 +127,14 @@ textarea {
 .CopyList {
     overflow: scroll;
     height: 100vh;
-    padding: 0 4px 0 0;
+}
+
+.copyList {
+    padding-top: 52px;
 }
 
 .cell {
-  padding:1.5rem;
+  padding: 0.5rem 1.5rem 1.5rem 1.5rem ;
   box-shadow:0 1px 2px #aaa;
   background:white;
   margin:0 1rem 1rem;

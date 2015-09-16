@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 export default class Bin extends React.Component {	
 	render() {
 		return (
-			<div>
+			<div className="copyList">
 				{this.props.deletedCopys.map(function(c,index) {
 					return (
 						<DeleteCopyListView key={c.id} content={c.content} tilte={c.title} obj={c} objIndex={index} />

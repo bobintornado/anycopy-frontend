@@ -13,7 +13,8 @@ class CopyDetail extends React.Component {
 		super();
 		this.state = {
         	title: "",
-        	content: ""
+        	content: "",
+        	success: false
         }
 	}
 
@@ -39,7 +40,12 @@ class CopyDetail extends React.Component {
 	save() {
 		var title = React.findDOMNode(this.refs.title).value;
 	    var content = React.findDOMNode(this.refs.content).value;
-		store.dispatch(updateCopy(title, content, this.props.index, this.props.object))
+	    var self = this
+		store.dispatch(updateCopy(title, content, this.props.index, this.props.object)).then(function() {
+			self.setState({
+				success: true
+			})
+		})
 	}
 
 	deleteCopy() {
@@ -58,6 +64,8 @@ class CopyDetail extends React.Component {
 		// state 1: create new
 		// state 2: edit
 		// state 3: restore 
+		this.setState({success:false });
+
 		if (nextProps.enterAddCopyMode) {
 			this.setState({title: "", content: "", object:true });	
 			return;
@@ -68,6 +76,7 @@ class CopyDetail extends React.Component {
 	}
 
 	handleChange(event) {
+		this.setState({ success:false });
 		if (event.target.type == 'text') {
 			this.setState({title: event.target.value});	
 		} else {
@@ -101,6 +110,10 @@ class CopyDetail extends React.Component {
 							          		<div className="form-group action">
 								          		<button type="button" className="btn btn-info btn-sm btn-action"
 								          			onClick={this.save.bind(this)}>Save</button>
+							          			{ this.state.success ?
+							          			<span> &nbsp;Successfully Saved!</span> :
+							          			null
+							          			}
 								          		<button type="button" className="btn btn-danger btn-sm btn-action"
 								          			style= {{float:"right"}} id="deleteButton"
 			          								onClick={this.deleteCopy.bind(this)}>Delete</button>

@@ -7,13 +7,9 @@ class CopyList extends React.Component {
 		return (
 			<div className="copyList" >
 				{this.props.copys.map(function(c,index) {
-					if (c.title.indexOf(this.props.searchText) === -1 && c.content.indexOf(this.props.searchText) === -1) {
-						return;
-					} else {
-						return (
-							<CopyListView key={c.id} content = {c.content} obj={c} objIndex={index}/>
-						);		
-					} 
+					return (
+						<CopyListView key={c.id} content = {c.content} obj={c} objIndex={index}/>
+					);
 		        }, this)}
 		        { this.props.noMoreCopysFromParse ? <div className="cell"> There is no more content </div> : this.props.isFetchingMoreCopysFromParse ? <div className="cell"> loading more... </div> : null }
 			</div>

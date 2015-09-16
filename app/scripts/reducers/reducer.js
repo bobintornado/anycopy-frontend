@@ -6,6 +6,7 @@ var defaultS = {
 	searchText: "",
 	copys: [],
 	deletedCopys: [],
+	searchResults: [],
 	enterAddCopyMode: false,
 	isFetchingMoreCopysFromParse: false,
 	noMoreCopysFromParse: false
@@ -17,10 +18,6 @@ export default function App(state = {}, action) {
 			return Object.assign({}, state, {
 			      navState: action.navState
 			    }); 
-		case "search":
-			return Object.assign({}, state, {
-			      searchText: action.text
-			    });
 		case "copy":
 			return Object.assign({}, state, {
 			      object: action.object,
@@ -34,6 +31,14 @@ export default function App(state = {}, action) {
 		case "addCopys":
 			return Object.assign({}, state, {
 				copys: [...state.copys, ...action.copys]
+			});
+		case "addNewSearchResults":
+			return Object.assign({}, state, {
+				searchResults: [...action.results]
+			});
+		case "addMoreSearchResults":
+			return Object.assign({}, state, {
+				searchResults: [...state.searchResults, ...action.results]
 			});
 		case "addDeletedCopys":
 			return Object.assign({}, state, {
