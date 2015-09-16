@@ -53,10 +53,17 @@ class CopyDetail extends React.Component {
 	}
 
 	componentWillReceiveProps(nextProps) {
+		// the logic is bit messy here
+		// basically the copy detail panel is trying to figure out what state is 
+		// state 1: create new
+		// state 2: edit
+		// state 3: restore 
 		if (nextProps.enterAddCopyMode) {
 			this.setState({title: "", content: "", object:true });	
-		} else {
-			this.setState({title: nextProps.object.title, content: nextProps.object.content, object:nextProps.object });	
+			return;
+		}
+		if (nextProps.object) {
+			this.setState({title: nextProps.object.title, content: nextProps.object.content, object:nextProps.object });
 		}
 	}
 

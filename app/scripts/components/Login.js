@@ -1,23 +1,37 @@
 import React from 'react';
 import Parse from 'parse'
 
+function reallySimpleEmailValidate(email) {
+    var re = /\S+@\S+\.\S+/;
+    return re.test(email);
+}
+
 export default class Login extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			signup: false,
-			forgetPassword: false
+			forgetPassword: false,
+			success: false
 		};
 	}
 
 	submit() {
 		var self = this;
 		var username = React.findDOMNode(this.refs.username).value;
+
+		if (!reallySimpleEmailValidate(username)) {
+			this.setState({
+				error: "Please provide a valid email address"
+			})
+			return;
+		}
+
 		if (this.state.forgetPassword) {
 			Parse.User.requestPasswordReset(username, {
 				success: function() {
 					self.setState({
-						error: "Successfully sent to your email. :) "
+						success: true
 					})
 				},
 				error: function(error) {
@@ -41,9 +55,9 @@ export default class Login extends React.Component {
 						// self.setState({
 						//   error: null
 						// });
-					}, function() {
+					}, function(error) {
 						self.setState({
-							error: 'Invalid account information'
+							error: error.message
 						});
 					});
 				} else {
@@ -51,7 +65,7 @@ export default class Login extends React.Component {
 						// self.setState({
 						//   error: null
 						// });
-					}, function() {
+					}, function(error) {
 						self.setState({
 							error: 'Incorrect username or password'
 						});
@@ -67,13 +81,15 @@ export default class Login extends React.Component {
 
 	toggleSignup() {
 	    this.setState({
-	      signup: !this.state.signup
+	      signup: !this.state.signup,
+	      error: undefined
 	    });
 	}
 
 	forgetToggle() {
 		this.setState({
-		  forgetPassword: !this.state.forgetPassword
+		  forgetPassword: !this.state.forgetPassword,
+		  error: undefined
 		});	
 	}
 
@@ -98,6 +114,10 @@ export default class Login extends React.Component {
 
 					{ this.state.error ?
 					<div className='form-group centered errors'>{this.state.error}</div> :
+					null
+					}
+					{ this.state.success ?
+					<div className='form-group centered' style={{color:"green"}}>An email has been sent to your email, please check it out. :)</div> :
 					null
 					}
 					<div className='form-group'>

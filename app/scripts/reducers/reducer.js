@@ -41,7 +41,9 @@ export default function App(state = {}, action) {
 			});
 		case "addNewCopy":
 			return Object.assign({}, state, {
-				copys: [ action.copy, ...state.copys]
+				copys: [ action.copy, ...state.copys],
+				enterAddCopyMode: false,
+				object: undefined
 			});
 		case "updateLocalCopy": 
 			return Object.assign({}, state, {
@@ -49,7 +51,8 @@ export default function App(state = {}, action) {
 					...state.copys.slice(0, action.index),
 					Object.assign({}, state.copys[action.index], {
 						title: action.title,
-						content: action.content
+						content: action.content,
+						updatedAt: new Date()
 			      	}),
 				    ...state.copys.slice(action.index + 1)
 				]

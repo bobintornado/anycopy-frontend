@@ -11,7 +11,7 @@ export default class FAQModal extends React.Component {
 			        <h4 className="modal-title" id="myModalLabel">FAQ</h4>
 			      </div>
 			      <div className="modal-body">
-			      	you will be more amazed with Android Client
+			      	you will be more amazed with Android Client!
 			      </div>
 			    </div>
 			  </div>
