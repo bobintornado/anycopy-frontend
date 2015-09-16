@@ -5,7 +5,8 @@ var defaultS = {
 	navState: navTypes.COPYS,
 	searchText: "",
 	copys: [],
-	enterAddCopyMode: false
+	enterAddCopyMode: false,
+	isFetchingMoreCopysFromParse: false
 }
 
 export default function App(state = {}, action) {
@@ -54,6 +55,14 @@ export default function App(state = {}, action) {
 				    ...state.copys.slice(action.index + 1)
 				]
 			});
+		case "startFetchingCopys": 
+			return Object.assign({}, state, {
+			      isFetchingMoreCopysFromParse: true
+			    });
+		case "endFetchingCopys": 
+			return Object.assign({}, state, {
+			      isFetchingMoreCopysFromParse: false
+			    });	 
 		default:
 			return defaultS;
 	}

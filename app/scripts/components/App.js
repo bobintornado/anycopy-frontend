@@ -2,7 +2,7 @@ import React from 'react';
 import LeftNavBar from './LeftNavBar';
 import MainContent from './MainContent';
 import Parse from 'parse'
-import { fetchAllCopys } from '../actions/copy'
+import { fetchInitialCopys } from '../actions/copy'
 import store from '../store/configureStore'
 
 Parse.initialize('Qe5rFk8qdUYnTURwyqIuEIRPFXonnFGujWpASGuM', 'WHhs8MnVrfNQLtXPyYQUXLJ6tMPtLg1xOX6ShJLR');
@@ -10,7 +10,7 @@ Parse.initialize('Qe5rFk8qdUYnTURwyqIuEIRPFXonnFGujWpASGuM', 'WHhs8MnVrfNQLtXPyY
 export default class App extends React.Component {
 	constructor() {
 		super();
-		store.dispatch(fetchAllCopys())		
+		store.dispatch(fetchInitialCopys());
 	}
 
 	render() {

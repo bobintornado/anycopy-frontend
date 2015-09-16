@@ -1,5 +1,6 @@
 import Parse from 'parse'
 import flatten from '../helpers/flatten'
+import store from '../store/configureStore'
 
 // for local store updating 
 
@@ -19,11 +20,11 @@ export function updateLocalCopy(title, content, index) {
 	}
 }
 
-export function updateCopy(title, content, index, object){
+export function updateCopy(title, content, index, object) {
 	return dispatch => {
 		var parseClass = Parse.Object.extend(object.id.className);
 		var query = new Parse.Query(parseClass);
-		return query.get(object.id.objectId).then(function (targetObj) {
+		return query.get(object.id.objectId).then(function(targetObj) {
 			targetObj.set("title", title);
 			targetObj.set("content", content);
 			targetObj.save();
@@ -39,11 +40,11 @@ export function deleteLocalCopy(index) {
 	}
 }
 
-export function deleteParseCopy(object,index){
+export function deleteParseCopy(object, index) {
 	return dispatch => {
 		var parseClass = Parse.Object.extend(object.id.className);
 		var query = new Parse.Query(parseClass);
-		return query.get(object.id.objectId).then(function (targetObj) {
+		return query.get(object.id.objectId).then(function(targetObj) {
 			targetObj.set("status", -7);
 			targetObj.save();
 			dispatch(deleteLocalCopy(index));
@@ -61,19 +62,43 @@ export function addCopys(copys) {
 	}
 }
 
-export function fetchAllCopys() {
+export function fetchInitialCopys() {
+	// fetch initial 100 notes
 	return dispatch => {
-		return (new Parse.Query('ParseNote')).equalTo('status', 1).count(function function_name(number) {
-			var times = number / 1000;
-			times = Math.ceil(number / 1000);
-			for (var index = 0; index < times; index++) {
-				var query = (new Parse.Query('ParseNote')).equalTo('status', 1).limit(1000).descending("updatedAt").skip(1000 * index)
-				query.find(function(results) {
-					dispatch(addCopys(results.map(flatten)))
-				})
-			}
+		var query = (new Parse.Query('ParseNote')).equalTo('status', 1).descending("updatedAt").limit(100);
+		return query.find(function(results) {
+			dispatch(addCopys(results.map(flatten)))
 		});
-	};
+	}
+}
+
+export function startFetchingMoreCopysFromParse() {
+	return {
+		type: "startFetchingCopys"
+	}
+}
+
+export function endFetchingCopysFromParse() {
+	return {
+		type: "endFetchingCopys"
+	}
+}
+
+export function loadMoreCopysFromParse() {
+	return dispatch => {
+		// fetch more copys based on the updated time of last local copy
+		var currentLocalCopys = store.getState().copys
+		var lastLocalCopy = currentLocalCopys[currentLocalCopys.length - 1]
+		console.log(lastLocalCopy.updatedAt);
+		var query = (new Parse.Query('ParseNote')).equalTo('status', 1).descending("updatedAt").lessThan("updatedAt", lastLocalCopy.updatedAt).limit(100);
+		return query.find(function(results) {
+			console.log('load more copys from parse results');
+			console.log(results);
+			dispatch(addCopys(results.map(flatten)));
+			console.log('end fetching more');
+			dispatch(endFetchingCopysFromParse());
+		})	
+	}
 }
 
 // global state actions
@@ -84,7 +109,7 @@ export function enterAddCopyMode() {
 	}
 }
 
-export function editCopy(object,index) {
+export function editCopy(object, index) {
 	return {
 		type: "copy",
 		object: object,

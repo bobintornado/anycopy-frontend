@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 class CopyList extends React.Component {
 	render() {
 		return (
-			<div>
+			<div className="copyList" >
 				{this.props.copys.map(function(c,index) {
 					if (c.title.indexOf(this.props.searchText) === -1 && c.content.indexOf(this.props.searchText) === -1) {
 						return;
