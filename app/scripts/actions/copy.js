@@ -53,7 +53,7 @@ export function deleteParseCopy(object, index) {
 }
 
 
-// fetch copys from server actions
+// actions related to fetch copys	
 
 export function addCopys(copys) {
 	return {
@@ -63,9 +63,9 @@ export function addCopys(copys) {
 }
 
 export function fetchInitialCopys() {
-	// fetch initial 100 notes
+	// fetch initial 25 notes
 	return dispatch => {
-		var query = (new Parse.Query('ParseNote')).equalTo('status', 1).descending("updatedAt").limit(100);
+		var query = (new Parse.Query('ParseNote')).equalTo('status', 1).descending("updatedAt").limit(25);
 		return query.find(function(results) {
 			dispatch(addCopys(results.map(flatten)))
 		});
@@ -84,19 +84,29 @@ export function endFetchingCopysFromParse() {
 	}
 }
 
+export function noMoreCopysFromParse() {
+	return {
+		type: "noMoreCopysFromParse"
+	}
+}
+
 export function loadMoreCopysFromParse() {
 	return dispatch => {
 		// fetch more copys based on the updated time of last local copy
 		var currentLocalCopys = store.getState().copys
 		var lastLocalCopy = currentLocalCopys[currentLocalCopys.length - 1]
 		console.log(lastLocalCopy.updatedAt);
-		var query = (new Parse.Query('ParseNote')).equalTo('status', 1).descending("updatedAt").lessThan("updatedAt", lastLocalCopy.updatedAt).limit(100);
+		var query = (new Parse.Query('ParseNote')).equalTo('status', 1).descending("updatedAt").lessThan("updatedAt", lastLocalCopy.updatedAt).limit(25);
 		return query.find(function(results) {
-			console.log('load more copys from parse results');
-			console.log(results);
-			dispatch(addCopys(results.map(flatten)));
-			console.log('end fetching more');
-			dispatch(endFetchingCopysFromParse());
+			if (results.length > 0) {
+				console.log('load more copys from parse results');
+				console.log(results);
+				dispatch(addCopys(results.map(flatten)));
+				console.log('end fetching more');
+				dispatch(endFetchingCopysFromParse());
+			} else {
+				dispatch(noMoreCopysFromParse())
+			}
 		})	
 	}
 }

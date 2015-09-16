@@ -15,6 +15,7 @@ class CopyList extends React.Component {
 						);		
 					} 
 		        }, this)}
+		        { this.props.noMoreCopysFromParse ? <div className="cell"> There is no more content </div> : this.props.isFetchingMoreCopysFromParse ? <div className="cell"> loading more... </div> : null }
 			</div>
 		);
 	}
@@ -24,7 +25,9 @@ class CopyList extends React.Component {
 function mapStateToProps(state) {
   return {
     searchText: state.searchText,
-    copys: state.copys
+    copys: state.copys,
+    isFetchingMoreCopysFromParse: state.isFetchingMoreCopysFromParse,
+    noMoreCopysFromParse: state.noMoreCopysFromParse
   };
 }
 

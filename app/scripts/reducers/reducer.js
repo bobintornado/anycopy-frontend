@@ -6,7 +6,8 @@ var defaultS = {
 	searchText: "",
 	copys: [],
 	enterAddCopyMode: false,
-	isFetchingMoreCopysFromParse: false
+	isFetchingMoreCopysFromParse: false,
+	noMoreCopysFromParse: false
 }
 
 export default function App(state = {}, action) {
@@ -62,7 +63,12 @@ export default function App(state = {}, action) {
 		case "endFetchingCopys": 
 			return Object.assign({}, state, {
 			      isFetchingMoreCopysFromParse: false
-			    });	 
+			    });	
+		case "noMoreCopysFromParse": 
+			return Object.assign({}, state, {
+					isFetchingMoreCopysFromParse: false,
+			    	noMoreCopysFromParse: true
+			    });
 		default:
 			return defaultS;
 	}
