@@ -40,9 +40,9 @@ class MainContent extends React.Component {
 
 	search() {
 		// if not searching, start the action
-		var text = React.findDOMNode(this.refs.search).value
+		var text = React.findDOMNode(this.refs.search).value.trim();
 		if (text == ""){
-			// user didn't anything, do nothing, just return
+			alert("Please input key words");
 			return;
 		} else {
 			// sequence may be changed later
