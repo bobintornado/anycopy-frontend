@@ -38,6 +38,11 @@ export function searchFromParse (text) {
 	}
 }
 
+export function noMoreCopysFromParse() {
+	return {
+		type: "noMoreCopysFromParse"
+	}
+}
 
 // test later
 export function loadMoreSearchFromParse(text) {
