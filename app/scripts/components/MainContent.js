@@ -63,7 +63,7 @@ class MainContent extends React.Component {
 	// handle scrolling event and automatically load more
 	handleScroll(event) {
 		var node = React.findDOMNode(this.refs.copyList);
-		if (domNodeIsReachingEnd(node) && !this.props.isFetchingMoreCopysFromParse) {
+		if (domNodeIsReachingEnd(node) && !this.props.isFetchingMoreCopysFromParse && !this.props.noMoreCopysFromParse) {
 			// trigger load more event
 			if (this.state.isSearchingState) {
 				store.dispatch(startFetchingMoreCopysFromParse());
@@ -99,7 +99,8 @@ class MainContent extends React.Component {
 function mapStateToProps(state) {
   return {
     navState: state.navState,
-    isFetchingMoreCopysFromParse: state.isFetchingMoreCopysFromParse
+    isFetchingMoreCopysFromParse: state.isFetchingMoreCopysFromParse,
+    noMoreCopysFromParse: state.noMoreCopysFromParse
   };
 }
 

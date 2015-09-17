@@ -24,8 +24,9 @@ class SearchList extends React.Component {
 	    				return (<DeleteCopyListView key={c.id} content={c.content} tilte={c.title} obj={c} objIndex={index} />);
 	    			}
 	            }, this)}
+	            
 
-	            { this.props.noMoreCopysFromParse ? <div className="cell"> There is no more content </div> : this.props.isFetchingMoreCopysFromParse ? <div className="cell"> loading more... </div> : null }
+	            { this.props.isFetchingMoreCopysFromParse ? <div className="cell"> loading more... </div> : this.props.noMoreCopysFromParse ? <div className="cell"> There is no more content </div> : null }
 			</div>
 		);
 	}
