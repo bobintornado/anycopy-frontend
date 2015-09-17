@@ -31,6 +31,13 @@ class MainContent extends React.Component {
 		this.state = { isSearchingState: false, isLoading: false };
 	}
 
+	searchInputBoxOnKeyPress(event) {
+		var v = event.key
+		if (v == "Enter") {
+			this.search()
+		}
+	}
+
 	search() {
 		// if not searching, start the action
 		var text = React.findDOMNode(this.refs.search).value
@@ -63,8 +70,11 @@ class MainContent extends React.Component {
 	// handle scrolling event and automatically load more
 	handleScroll(event) {
 		var node = React.findDOMNode(this.refs.copyList);
-		if (domNodeIsReachingEnd(node) && !this.props.isFetchingMoreCopysFromParse && !this.props.noMoreCopysFromParse) {
+		if (domNodeIsReachingEnd(node) && !this.props.isFetchingMoreCopysFromParse) {
 			// trigger load more event
+			if (this.props.noMoreCopysFromParse){
+				return;
+			}
 			if (this.state.isSearchingState) {
 				store.dispatch(startFetchingMoreCopysFromParse());
 				store.dispatch(loadMoreSearchFromParse(React.findDOMNode(this.refs.search).value));
@@ -81,7 +91,7 @@ class MainContent extends React.Component {
 			<div className="col-xs-10 col-sm-10 col-md-10 col-lg-10 main">
 	            <div ref='copyList' className="col-xs-3 col-sm-3 col-md-3 col-lg-3 CopyList" onScroll={this.handleScroll.bind(this)}>
 	            	<form className="form-inline search col-xs-2 col-sm-2 col-md-2 col-lg-2">
-		            	<input type="text" className="form-control" placeholder="Search" onChange={this.searchTextChanged.bind(this)}
+		            	<input type="text" className="form-control" placeholder="Search" onChange={this.searchTextChanged.bind(this)} onKeyPress={this.searchInputBoxOnKeyPress.bind(this)}
 		            		ref="search" id="searchBar"/>
 		            	<button type="button" className="btn btn-default btn-sm" id="searchButton" onClick={this.search.bind(this)}>Search</button>
 	            	</form>

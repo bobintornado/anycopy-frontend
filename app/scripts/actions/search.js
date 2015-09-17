@@ -25,15 +25,19 @@ export function addMoreSearchResults(results) {
 
 export function searchFromParse (text) {
 	return dispatch => {
+		var limit = 25;
 		var status = 1;
 		if (store.getState().navState !== 'copys') {
 			status = -7;
 		}
 		var queryTitle = (new Parse.Query('ParseNote')).contains("title", text)
 		var queryContent = (new Parse.Query('ParseNote')).contains("content", text)
-		var mainQuery = Parse.Query.or(queryTitle, queryContent).equalTo('status', status).descending("updatedAt").limit(25)
+		var mainQuery = Parse.Query.or(queryTitle, queryContent).equalTo('status', status).descending("updatedAt").limit(limit)
 		return mainQuery.find(function(results) {
 			dispatch(addNewSearchResults(results.map(flatten)))
+			if (results.length != limit) {
+				dispatch(noMoreCopysFromParse())
+			}
 		});
 	}
 }

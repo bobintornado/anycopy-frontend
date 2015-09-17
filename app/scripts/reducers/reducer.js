@@ -34,7 +34,8 @@ export default function App(state = {}, action) {
 			});
 		case "addNewSearchResults":
 			return Object.assign({}, state, {
-				searchResults: [...action.results]
+				searchResults: [...action.results],
+				noMoreCopysFromParse: false
 			});
 		case "addMoreSearchResults":
 			return Object.assign({}, state, {

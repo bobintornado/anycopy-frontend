@@ -65,9 +65,13 @@ export function addCopys(copys) {
 export function fetchInitialCopys() {
 	// fetch initial 25 notes
 	return dispatch => {
-		var query = (new Parse.Query('ParseNote')).equalTo('status', 1).descending("updatedAt").limit(25);
+		var limit = 25;
+		var query = (new Parse.Query('ParseNote')).equalTo('status', 1).descending("updatedAt").limit(limit);
 		return query.find(function(results) {
 			dispatch(addCopys(results.map(flatten)))
+			if (results.length != limit) {
+				dispatch(noMoreCopysFromParse())
+			}
 		});
 	}
 }
