@@ -151,8 +151,8 @@ class CopyDetail extends React.Component {
           							<label htmlFor="title" className="control-label"><h3>Title</h3></label>
           							<input type="text" className="form-control" id="title" ref="title" value={this.state.title} onChange={this.handleChange.bind(this)}/>
           						</div>
-          						{ createAtString ? <span> created at : {createAtString} </span> : null }
-          						{ updatedAtString ? <span> created at : {updatedAtString} </span> : null }
+          						{ createAtString ? <span> Created at : {createAtString} </span> : null }
+          						{ updatedAtString ? <span> Updated at : {updatedAtString} </span> : null }
           						
           						<div className="form-group">
           							<label htmlFor="Content" className="control-label"><h3>Content</h3></label>

@@ -1,5 +1,4 @@
 import React from 'react';
-import ParseReact from 'parse-react';
 import store from '../store/configureStore'
 import { editCopy } from '../actions/copy'
 

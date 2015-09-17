@@ -5,7 +5,6 @@ import Parse from 'parse'
 import { fetchInitialCopys } from '../actions/copy'
 import { fetchInitialDeletedCopys } from '../actions/delete'
 import store from '../store/configureStore'
-import NotificationSystem from 'react-notification-system'
 
 Parse.initialize('Qe5rFk8qdUYnTURwyqIuEIRPFXonnFGujWpASGuM', 'WHhs8MnVrfNQLtXPyYQUXLJ6tMPtLg1xOX6ShJLR');
 
@@ -22,7 +21,6 @@ export default class App extends React.Component {
 			<div className="container-fluid">
             	<LeftNavBar />
             	<MainContent />
-            	<NotificationSystem ref="notificationSystem" />
             </div>
         );
 	}
