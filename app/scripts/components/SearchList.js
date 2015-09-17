@@ -9,8 +9,11 @@ class SearchList extends React.Component {
 			<div className="copyList" >
 				{(() => {
 			        if (this.props.isLoading) {
-			            return (<div> Working hard on searching.... </div>);
+			            return (<div className="cell"> Working hard on searching.... </div>);
 			        } else {
+			        	if (this.props.searchResults.length == 0) {
+			        		return (<div className="cell"> No match results</div>);
+			        	}
 			        }
 			    })()}
 			    
