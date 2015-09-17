@@ -31,13 +31,15 @@ export default class Login extends React.Component {
 			Parse.User.requestPasswordReset(username, {
 				success: function() {
 					self.setState({
+						error: null,
 						success: true
 					})
 				},
 				error: function(error) {
 					// Show the error message somewhere
 					self.setState({
-						error: error.message
+						error: error.message,
+						success: null
 					});
 				}
 			});

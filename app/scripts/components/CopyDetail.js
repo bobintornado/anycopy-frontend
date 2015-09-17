@@ -14,13 +14,18 @@ class CopyDetail extends React.Component {
 		this.state = {
         	title: "",
         	content: "",
-        	success: false
+        	success: false,
+        	successCreate: false
         }
 	}
 
 	create() {
 		var title = React.findDOMNode(this.refs.title).value;
 	    var content = React.findDOMNode(this.refs.content).value;
+	    if (title == "" && content == "") {
+	    	alert("Please fill in title or content");
+	    	return;	
+	    }
 	    title = title == "" ? content.substring(0,20) : title
 		var p = ParseReact.Mutation.Create("ParseNote", {
 			title: title,
@@ -29,28 +34,35 @@ class CopyDetail extends React.Component {
 			ACL: new Parse.ACL(Parse.User.current())
 		}).dispatch();
 		// don't do optimistic updated yet
+		var self = this;
 		p.then(function(newCopy) {
 			store.dispatch(addNewCopy(flatten(newCopy)))
+			self.setState({
+				successCreate: true
+			})
 		});
-		this.setState({
-			object: false
-		}); 
 	}
 
 	save() {
 		var title = React.findDOMNode(this.refs.title).value;
 	    var content = React.findDOMNode(this.refs.content).value;
-	    var self = this
+	    var self = this;
 		store.dispatch(updateCopy(title, content, this.props.index, this.props.object)).then(function() {
 			self.setState({
-				success: true
-			})
+				success: true,
+				successCreate: false
+			});
+			var newObj = Object.assign({}, self.state.object, {
+				updatedAt: new Date()
+			});
+			self.setState({
+				object: newObj
+			});
 		})
 	}
 
 	deleteCopy() {
 		store.dispatch(deleteParseCopy(this.props.object, this.props.index));
-		this.setState({object: undefined});	
 	}
 
 	restore() {
@@ -86,44 +98,62 @@ class CopyDetail extends React.Component {
 
 	render() {
 		var title = this.state.title
+		
+
 		return (
 			<form className="heightVH100">
 					{(() => {
 				        if (this.state.object) {
-				          return (
-				          	<div>
-				          		{(() => {
-				          			if (this.props.enterAddCopyMode) {
-				          				return (
-							          		<div className="form-group action">
-			          							<button type="button" className="btn btn-primary btn-sm btn-action"
-			          								onClick={this.create.bind(this)}>Create</button>
-			          						</div>);
-				          			} else if (this.state.object.status == -7) {
-			          		          	return (
-							          		<div className="form-group action">
-			          							<button type="button" className="btn btn-info btn-sm btn-action"
-			          								onClick={this.restore.bind(this)}>Restore</button>
-			          						</div>);
-			          		        } else {
-			          		        	return (
-							          		<div className="form-group action">
-								          		<button type="button" className="btn btn-info btn-sm btn-action"
-								          			onClick={this.save.bind(this)}>Save</button>
-							          			{ this.state.success ?
-							          			<span> &nbsp;Successfully Saved!</span> :
-							          			null
-							          			}
-								          		<button type="button" className="btn btn-danger btn-sm btn-action"
-								          			style= {{float:"right"}} id="deleteButton"
-			          								onClick={this.deleteCopy.bind(this)}>Delete</button>
+				        	// format date into usable string
+		          			if (!this.props.enterAddCopyMode) {
+			          			var createAt = this.state.object.createdAt
+					        	var createAtString = createAt.getDate() + "/" + createAt.getMonth() + "/" + createAt.getFullYear() + " " + createAt.getHours() + ":" + createAt.getMinutes() + ":" + createAt.getSeconds();
+					        	var updatedAt = this.state.object.updatedAt
+					        	var updatedAtString = updatedAt.getDate() + "/" + updatedAt.getMonth() + "/" + updatedAt.getFullYear() + " " + updatedAt.getHours() + ":" + updatedAt.getMinutes() + ":" + updatedAt.getSeconds();
+		          			}
+
+				         	return (
+				          		<div>
+				          			{(() => {
+					          			if (this.props.enterAddCopyMode) {
+					          				return (
+								          		<div className="form-group action">
+				          							<button type="button" className="btn btn-primary btn-sm btn-action"
+				          								onClick={this.create.bind(this)}>Create</button>
+				          						</div>);
+					          			} else if (this.state.object.status == -7) {
+				          		          	return (
+								          		<div className="form-group action">
+				          							<button type="button" className="btn btn-info btn-sm btn-action"
+				          								onClick={this.restore.bind(this)}>Restore</button>
+				          						</div>);
+				          		        } else {
+				          		        	return (
+								          		<div className="form-group action">
+									          		<button type="button" className="btn btn-info btn-sm btn-action"
+									          			onClick={this.save.bind(this)}>Save</button>
+								          			{ this.state.successCreate ?
+								          			<span> &nbsp;Successfully Created!</span> :
+								          			null
+								          			}
+								          			{ this.state.success ?
+								          			<span> &nbsp;Successfully Saved!</span> :
+								          			null
+								          			}
+									          		<button type="button" className="btn btn-danger btn-sm btn-action"
+									          			style= {{float:"right"}} id="deleteButton"
+				          								onClick={this.deleteCopy.bind(this)}>Delete</button>
 			          						</div>);
 			          		        }
-				          		 })()}
+				          		})()}
+
           		          		<div className="form-group">
           							<label htmlFor="title" className="control-label"><h3>Title</h3></label>
           							<input type="text" className="form-control" id="title" ref="title" value={this.state.title} onChange={this.handleChange.bind(this)}/>
           						</div>
+          						{ createAtString ? <span> created at : {createAtString} </span> : null }
+          						{ updatedAtString ? <span> created at : {updatedAtString} </span> : null }
+          						
           						<div className="form-group">
           							<label htmlFor="Content" className="control-label"><h3>Content</h3></label>
           							<textarea className="form-control" id="CopyEditContent" ref="content" value={this.state.content} onChange={this.handleChange.bind(this)}></textarea>

@@ -48,7 +48,8 @@ export default function App(state = {}, action) {
 			return Object.assign({}, state, {
 				copys: [ action.copy, ...state.copys],
 				enterAddCopyMode: false,
-				object: undefined
+				object: action.copy,
+				index: 0
 			});
 		case "updateLocalCopy": 
 			return Object.assign({}, state, {
@@ -72,7 +73,9 @@ export default function App(state = {}, action) {
 					...state.copys.slice(0, action.index),
 				    ...state.copys.slice(action.index + 1)
 				],
-				deletedCopys: [newObj, ...state.deletedCopys]
+				deletedCopys: [newObj, ...state.deletedCopys],
+				object: state.copys[action.index+1],
+				index: action.index
 			});
 		case "startFetchingCopys": 
 			return Object.assign({}, state, {
