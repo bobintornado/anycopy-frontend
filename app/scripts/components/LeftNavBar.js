@@ -32,7 +32,7 @@ class LeftNavBar extends React.Component {
 				<div className="logo">
 					ANYCOPY
 					<a href="https://play.google.com/store/apps/details?id=any.copy.io" target="_blank"> 
-						<img id="googlePlayImage" src="/images/google_play.png" alt="Google Play"/> 
+						<img id="googlePlayImage" src="images/google_play.png" alt="Google Play"/> 
 					</a>
 				</div>
 				<div className="line"></div>
