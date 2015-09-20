@@ -1,3 +1,7 @@
+// import dependencies 
+import bootstrap from 'bootstrap'
+// import modernizr from 'modernizr'
+
 import Root from './components/Root';
 import React from 'react';
 import { Provider } from 'react-redux';

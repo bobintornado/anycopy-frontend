@@ -1,6 +1,5 @@
 <!doctype html>
 <html class="no-js" lang="">
-
 <head>
     <meta charset="utf-8">
     <meta name="description" content="">
@@ -8,21 +7,17 @@
     <title>AnyCopy</title>
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <!-- Place favicon.ico in the root directory -->
-    <!-- build:css styles/vendor.css -->
-    <!-- bower:css -->
-    <!-- endbower -->
+    <!-- build:css styles/combined.css -->
+    <link rel="stylesheet" type="text/css" href="/node_modules/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="/styles/main.css">
     <!-- endbuild -->
-    <!-- build:css styles/main.css -->
-    <link rel="stylesheet" href="styles/main.css">
-    <!-- endbuild -->
-    <!-- build:js scripts/vendor/modernizr.js -->
-    <script src="/bower_components/modernizr/modernizr.js"></script>
-    <!-- endbuild -->
+    
 </head>
 
 <body>
-    <div id="root">
-    </div>
+    <!-- Root element for React JS -->
+    <div id="root"></div>
+
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
     <script>
     (function(b, o, i, l, e, r) {
@@ -40,31 +35,18 @@
     ga('create', 'UA-XXXXX-X');
     ga('send', 'pageview');
     </script>
+
+    <!-- Modernizr which couldn't been easily loaded by webpack  -->
+    <!-- Use gulp useref instead -->
     <!-- build:js scripts/vendor.js -->
-    <!-- bower:js -->
-    <script src="/bower_components/jquery/dist/jquery.js"></script>
-    <script src="/bower_components/modernizr/modernizr.js"></script>
-    <!-- endbower -->
+    <script type="text/javascript" src="/bower_components/modernizr/modernizr.js"></script>
     <!-- endbuild -->
-    <!-- build:js scripts/plugins.js -->
-    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/affix.js"></script>
-    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/alert.js"></script>
-    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/dropdown.js"></script>
-    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/tooltip.js"></script>
-    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/modal.js"></script>
-    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/transition.js"></script>
-    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/button.js"></script>
-    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/popover.js"></script>
-    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/carousel.js"></script>
-    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/scrollspy.js"></script>
-    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/collapse.js"></script>
-    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/tab.js"></script>
-    <!-- endbuild -->
+    <!-- Dist bundle js path -->
+    <script type="text/javascript" src="/bundle.js" charset="utf-8"></script>
 
-    <!-- Webpack bundle -->
-    <script type="text/javascript" src="http://localhost:8080/webpack/bundle.js" charset="utf-8"></script>
+    <!-- Webpack bundle used for Dev-->
+    <script type="text/javascript" src="http://localhost:8080/dist/bundle.js" charset="utf-8"></script>
     <!-- End Bundle -->
-    <!-- will think about how to do production build later -->
+    
 </body>
-
 </html>

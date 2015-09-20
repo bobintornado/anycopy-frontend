@@ -3,41 +3,26 @@ import gulp from 'gulp';
 import gulpLoadPlugins from 'gulp-load-plugins';
 import browserSync from 'browser-sync';
 import del from 'del';
-import {
-  stream as wiredep
-}
-from 'wiredep';
+// import { stream as wiredep } from 'wiredep';
 
 import webpack from 'webpack'
 import WebpackDevServer from 'webpack-dev-server'
-import path from 'path'
+import webpackConfig from './webpack.config.js'
 
 const $ = gulpLoadPlugins();
 const reload = browserSync.reload;
 
+// webpack task
+
 gulp.task("webpack-dev-server", function(callback) {
   // Start a webpack-dev-server
-  var compiler = webpack({
-    entry: "./app/scripts/index.js",
-    output: {
-      path: __dirname,
-      filename: "bundle.js"
-    },
-    cache: false,
-    debug: true,
-    module: {
-      loaders: [{
-        test: /\.js$/,
-        loaders: ['babel'],
-        exclude: /node_modules/,
-        include: __dirname
-      }]
-    }
-  });
+  var compiler = webpack(webpackConfig);
 
   new WebpackDevServer(compiler, {
     // server and middleware options
-    publicPath: "/webpack/",
+    publicPath: "/dist/",
+    quiet: false,
+    noInfo: false,
     stats: {
       colors: true
     }
@@ -61,16 +46,10 @@ gulp.task('styles', () => {
     }))
     .pipe($.sourcemaps.write())
     .pipe(gulp.dest('.tmp/styles'))
-    .pipe(reload({
-      stream: true
-    }));
+    // .pipe(reload({
+    //   stream: true
+    // }));
 });
-
-const testLintOptions = {
-  env: {
-    mocha: true
-  }
-};
 
 gulp.task('html', ['styles'], () => {
   const assets = $.useref.assets({
@@ -137,7 +116,7 @@ gulp.task('serve', ['styles', 'fonts'], () => {
       baseDir: ['.tmp', 'app'],
       routes: {
         '/bower_components': 'bower_components',
-        '/node_modules': 'node_modules'
+        '/node_modules': 'node_modules',
       }
     }
   });
@@ -152,7 +131,8 @@ gulp.task('serve', ['styles', 'fonts'], () => {
 
   gulp.watch('app/styles/**/*.scss', ['styles']);
   gulp.watch('app/fonts/**/*', ['fonts']);
-  gulp.watch('bower.json', ['wiredep', 'fonts']);
+  // stop using bower
+  // gulp.watch('bower.json', ['wiredep', 'fonts']);
 });
 
 gulp.task('serve:dist', () => {
@@ -183,37 +163,59 @@ gulp.task('serve:test', () => {
 
 });
 
+// Try using webpack for dependencies injection
+
 // inject bower components
-gulp.task('wiredep', () => {
-  gulp.src('app/styles/*.scss')
-    .pipe(wiredep({
-      ignorePath: /^(\.\.\/)+/
-    }))
-    .pipe(gulp.dest('app/styles'));
+// gulp.task('wiredep', () => {
+//   gulp.src('app/styles/*.scss')
+//     .pipe(wiredep({
+//       ignorePath: /^(\.\.\/)+/
+//     }))
+//     .pipe(gulp.dest('app/styles'));
 
-  gulp.src('app/*.html')
-    .pipe(wiredep({
-      exclude: ['bootstrap-sass'],
-      ignorePath: /^(\.\.\/)*\.\./,
-      overrides: {
-          "outlayer": {
-            "main": [
-              "item.js",
-              "outlayer.js"
-            ]
-          }
-        }
-    }))
-    .pipe(gulp.dest('app'));
-});
+//   gulp.src('app/*.html')
+//     .pipe(wiredep({
+//       exclude: ['bootstrap-sass'],
+//       ignorePath: /^(\.\.\/)*\.\./,
+//       overrides: {
+//           "outlayer": {
+//             "main": [
+//               "item.js",
+//               "outlayer.js"
+//             ]
+//           }
+//         }
+//     }))
+//     .pipe(gulp.dest('app'));
+// });
 
-gulp.task('build', ['html', 'images', 'fonts', 'extras'], () => {
+gulp.task('build', ['html', 'images', 'fonts', 'extras', 'webpack:build'], () => {
   return gulp.src('dist/**/*').pipe($.size({
     title: 'build',
     gzip: true
   }));
 });
 
-gulp.task('default', ['clean', 'wiredep', 'webpack-dev-server'], () => {
+gulp.task("webpack:build", function (callback) {
+  // modify some webpack config options
+  var myConfig = Object.create(webpackConfig);
+  myConfig.plugins = myConfig.plugins.concat(
+    new webpack.DefinePlugin({
+      "process.env": {
+        // This has effect on the react lib size
+        "NODE_ENV": JSON.stringify("production")
+      }
+    }),
+    new webpack.optimize.DedupePlugin(),
+    new webpack.optimize.UglifyJsPlugin()
+  );
+
+  // run webpack
+  webpack(myConfig, function(err, stats) {
+    callback();
+  });
+})
+
+gulp.task('default', ['clean', 'webpack-dev-server'], () => {
   gulp.start('serve');
 });
