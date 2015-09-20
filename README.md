@@ -10,4 +10,12 @@ gulp
 
 # Basic Info
 
-A Redux + React front-end app. Back-end on Parse.
+A Redux + React front-end app. 
+
+Back-end on Parse.
+
+# Automation
+
+Gulp + Webpack
+
+Note: Dist build scripts is still a bit broken
