@@ -55,4 +55,4 @@ remove
 <script type=text/javascript src=http://localhost:8080/dist/bundle.js charset=utf-8></script>
 ```
 
-from dist/index.html after build
+from `dist/index.html` after build (DON'T TOUCH `app/index.html`)
