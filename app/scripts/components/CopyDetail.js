@@ -84,8 +84,14 @@ class CopyDetail extends React.Component {
 		}
 		if (nextProps.object) {
 			this.setState({title: nextProps.object.title, content: nextProps.object.content, object:nextProps.object });
+			// a hack to ensure DOM is loaded
+			var self = this; 
+			setTimeout(function(){ React.findDOMNode(self.refs.content).focus(); }, 200);
 		}
 	}
+
+	// React.findDOMNode(this.refs.content).focus();
+
 
 	handleChange(event) {
 		this.setState({ success:false });
