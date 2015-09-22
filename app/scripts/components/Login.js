@@ -140,7 +140,7 @@ export default class Login extends React.Component {
                 onClick={this.toggleSignup.bind(this)}> {this.state.signup ? 'Log in' : 'Sign up'}</a></span> : null
             }
             <a className="right" style={{float:"right"}} onClick={this.forgetToggle.bind(this)}>
-              { this.state.forgetPassword ? "Login or Sign up" : 'Forget password?'}
+              { this.state.forgetPassword ? "Log In or Sign up" : 'Forget password?'}
             </a>
           </div>
         </form>
