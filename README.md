@@ -56,3 +56,14 @@ remove
 ```
 
 from `dist/index.html` after build (DON'T TOUCH `app/index.html`)
+
+
+# Issue with git subtree
+
+when rejected, use 
+
+```
+git push origin `git subtree split --prefix dist master`:gh-pages --force
+```
+
+to force update, due to git is not using fast forward on subtree command by default
