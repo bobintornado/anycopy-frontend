@@ -26,15 +26,18 @@ export function addMoreSearchResults(results) {
 export function searchFromParse (text) {
 	return dispatch => {
 		var limit = 25;
-		var status = 1;
+		var status = -7;
+    var mainQuery = null;
+    var queryTitle = (new Parse.Query('ParseNote')).contains("title", text);
+    var queryContent = (new Parse.Query('ParseNote')).contains("content", text);
 		if (store.getState().navState !== 'copys') {
-			status = -7;
-		}
-		var queryTitle = (new Parse.Query('ParseNote')).contains("title", text)
-		var queryContent = (new Parse.Query('ParseNote')).contains("content", text)
-		var mainQuery = Parse.Query.or(queryTitle, queryContent).equalTo('status', status).descending("updatedAt").limit(limit)
+      mainQuery = Parse.Query.or(queryTitle, queryContent).equalTo('status', status).descending("updatedAt").limit(limit);
+    }else{
+      mainQuery = Parse.Query.or(queryTitle, queryContent).greaterThan('status', status).descending("updatedAt").limit(limit);
+    }
+
 		return mainQuery.find(function(results) {
-			dispatch(addNewSearchResults(results.map(flatten)))
+			dispatch(addNewSearchResults(results.map(flatten)));
 			if (results.length != limit) {
 				dispatch(noMoreCopysFromParse())
 			}
@@ -51,17 +54,22 @@ export function noMoreCopysFromParse() {
 // test later
 export function loadMoreSearchFromParse(text) {
 	return dispatch => {
-		var status = 1;
-		if (store.getState().navState !== 'copys') {
-			status = -7;
-		}
-		// fetch more copys based on the updated time of last local copy
-		var currentLocalCopys = store.getState().searchResults
-		var lastLocalCopy = currentLocalCopys[currentLocalCopys.length - 1]
 
-		var queryTitle = (new Parse.Query('ParseNote')).contains("title", text)
-		var queryContent = (new Parse.Query('ParseNote')).contains("content", text)
-		var mainQuery = Parse.Query.or(queryTitle, queryContent).equalTo('status', status).descending("updatedAt").lessThan("updatedAt", lastLocalCopy.updatedAt).limit(25)
+		// fetch more copys based on the updated time of last local copy
+    var status = -7;
+		var currentLocalCopys = store.getState().searchResults;
+		var lastLocalCopy = currentLocalCopys[currentLocalCopys.length - 1];
+
+		var queryTitle = (new Parse.Query('ParseNote')).contains("title", text);
+		var queryContent = (new Parse.Query('ParseNote')).contains("content", text);
+    var mainQuery = null;
+
+    if (store.getState().navState !== 'copys') {
+      mainQuery = Parse.Query.or(queryTitle, queryContent).equalTo('status', status).descending("updatedAt").lessThan("updatedAt", lastLocalCopy.updatedAt).limit(25);
+    }else{
+      mainQuery = Parse.Query.or(queryTitle, queryContent).greaterThan('status', status).descending("updatedAt").lessThan("updatedAt", lastLocalCopy.updatedAt).limit(25);
+    }
+
 
 		return mainQuery.find(function(results) {
 			if (results.length > 0) {
@@ -70,7 +78,7 @@ export function loadMoreSearchFromParse(text) {
 			} else {
 				dispatch(noMoreCopysFromParse())
 			}
-		})	
+		})
 	}
 }
 
