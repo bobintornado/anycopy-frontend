@@ -6,7 +6,7 @@ import { fetchInitialCopys } from '../actions/copy'
 import { fetchInitialDeletedCopys } from '../actions/delete'
 import store from '../store/configureStore'
 
-Parse.initialize('Qe5rFk8qdUYnTURwyqIuEIRPFXonnFGujWpASGuM', 'WHhs8MnVrfNQLtXPyYQUXLJ6tMPtLg1xOX6ShJLR');
+Parse.initialize('yfEdqI7Acp4gilWKcLlpFXm8izVHobgfYLOxkd0s', '0v6U0g9GvPyB3aMucQe9YS2St0Vq7ZwEfWLyBogb');
 
 export default class App extends React.Component {
 	constructor() {
@@ -17,7 +17,7 @@ export default class App extends React.Component {
 	}
 
 	render() {
-		return ( 
+		return (
 			<div className="container-fluid">
             	<LeftNavBar />
             	<MainContent />
