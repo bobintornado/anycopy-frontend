@@ -48,6 +48,7 @@ export function deleteParseCopy(object, index) {
     var query = new Parse.Query(parseClass);
     return query.get(object.id.objectId).then(function (targetObj) {
       targetObj.set("status", -7);
+      targetObj.set("deviceId", "website");
       targetObj.save();
       dispatch(deleteLocalCopy(index));
     })
