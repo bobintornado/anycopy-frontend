@@ -54,6 +54,22 @@ export function deleteParseCopy(object, index) {
   }
 }
 
+export function pushParseCopy(object, index) {
+
+
+  var noteObjectId = object.id.objectId;
+  Parse.Cloud.run('pushNoteToClipboard', {parseNoteObjectId: noteObjectId}, {
+    success: function (result) {
+      // ratings should be 4.5
+    },
+    error: function (error) {
+    }
+  });
+
+  //to Bob: 如果显示一个推送成功或者失败的提示消息?
+
+}
+
 
 // actions related to fetch copys
 
