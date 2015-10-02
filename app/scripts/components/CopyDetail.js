@@ -3,7 +3,7 @@ import ParseReact from 'parse-react';
 import Parse from 'parse';
 import { connect } from 'react-redux';
 import store from '../store/configureStore'
-import { addNewCopy, updateCopy, deleteParseCopy } from '../actions/copy'
+import { addNewCopy, updateCopy, deleteParseCopy, pushParseCopy } from '../actions/copy'
 import { restoreOnParse } from '../actions/delete'
 import flatten from '../helpers/flatten'
 import FAQModal from '../components/FAQModal.js'
@@ -72,6 +72,10 @@ class CopyDetail extends React.Component {
 
   deleteCopy() {
     store.dispatch(deleteParseCopy(this.props.object, this.props.index));
+  }
+
+  pushParseCopy() {
+    store.dispatch(pushParseCopy(this.props.object, this.props.index));
   }
 
   restore() {
@@ -163,6 +167,11 @@ class CopyDetail extends React.Component {
                           <span> &nbsp;Successfully Saved!</span> :
                           null
                         }
+                        <button type="button" className="btn btn-info btn-sm btn-action"
+                                style={{float:"right"}} id="pushButton"
+                                onClick={this.pushParseCopy.bind(this)}>Push This Note To Android System Clipboard
+                        </button>
+
                         <button type="button" className="btn btn-danger btn-sm btn-action"
                                 style={{float:"right"}} id="deleteButton"
                                 onClick={this.deleteCopy.bind(this)}>Delete
