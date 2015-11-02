@@ -18,11 +18,6 @@ Back-end on Parse.
 
 Gulp + Webpack
 
-# Automation Broken Parts
-
-1. Webpack is currently not reloading scripts after changes (so after changes one need to manually ctrl+c and gulp again) (This is probably a configuration issue, but could also be a webpack bug, since there are other cases on the internet also, more investigation needed)
-2. Cause browserSync and webpack-dev-server both require inverse proxy, I haven't figured out a solution to make them work together yet
-
 # Build/Deploy Script 
 
 change some stuff and make sure it works, then run
