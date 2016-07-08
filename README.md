@@ -1,3 +1,8 @@
+This is code for hosting http://app.anycopy.io/
+
+Now it is pointing to the parse server that I setup manually on digital ocean.
+
+
 # Start dev version
 
 ```
