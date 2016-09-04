@@ -1,3 +1,7 @@
+
+
+
+
 This is code for hosting http://app.anycopy.io/
 
 Now it is pointing to the parse server that I setup manually on digital ocean.
@@ -6,11 +10,27 @@ Now it is pointing to the parse server that I setup manually on digital ocean.
 # Start dev version
 
 ```
-git clone git@github.com:bobintornado/anycopy-ui-demo.git
-cd anycopy-ui-demo
-bower install 	# this is to install bower component
-npm install 	# this is to install common js libs
-gulp 			# default task is to serve development copy
+1， git clone git@github.com:bobintornado/anycopy-ui-demo.git
+2， cd anycopy-ui-demo
+3， bower install 	# this is to install bower component
+4， npm install 	# this is to install common js libs
+
+
+5， Solved bug
+
+https://github.com/ParsePlatform/ParseReact/issues/161
+
+by this patch 
+
+https://github.com/MonirAbuHilal/ParseReact/commit/541c46e5c974aa3832654f5540f6beb8ee789c6f
+
+in ../anycopy-frontend/node_modules/parse-react/lib/browser/ParsePatches.js
+
+6，replace parse server from https://api.parse.com/1 to http://prod.aikaobei.com:1337/parse in bundle.js
+
+
+
+7, gulp 			# default task is to serve development copy
 ```
 
 # Basic Info
