@@ -59,7 +59,7 @@ export function pushParseCopy(object, index) {
 
 
   var noteObjectId = object.id.objectId;
-  Parse.Cloud.run('pushNoteToClipboard', {parseNoteObjectId: noteObjectId}, {
+  Parse.Cloud.run('pushNoteToClipboard', {parseNoteObjectId: noteObjectId, noteTitle: object.id.get("title")}, {
     success: function (result) {
       // ratings should be 4.5
     },
