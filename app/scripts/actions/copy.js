@@ -62,8 +62,10 @@ export function pushParseCopy(object, index) {
   Parse.Cloud.run('pushNoteToClipboard', {parseNoteObjectId: noteObjectId}, {
     success: function (result) {
       // ratings should be 4.5
+      console.log(result);
     },
     error: function (error) {
+      console.error(error);
     }
   });
 
