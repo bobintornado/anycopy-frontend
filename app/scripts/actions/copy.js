@@ -1,6 +1,6 @@
-import Parse from 'parse'
-import flatten from '../helpers/flatten'
-import store from '../store/configureStore'
+import Parse from "parse";
+import flatten from "../helpers/flatten";
+import store from "../store/configureStore";
 
 // for local store updating
 
@@ -59,7 +59,7 @@ export function pushParseCopy(object, index) {
 
 
   var noteObjectId = object.id.objectId;
-  Parse.Cloud.run('pushNoteToClipboard', {parseNoteObjectId: noteObjectId, noteTitle: object.id.get("title")}, {
+  Parse.Cloud.run('pushNoteToClipboard', {parseNoteObjectId: noteObjectId}, {
     success: function (result) {
       // ratings should be 4.5
     },
